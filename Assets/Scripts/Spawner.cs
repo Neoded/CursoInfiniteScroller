@@ -3,10 +3,15 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] GameObject obstaclePrefab;
+    private int spawnCount;
+
+    [SerializeField] GameObject prefab;
     [SerializeField] float spawnTime = 2f;
+    [SerializeField] float minSpawnTime;
     [SerializeField] float maxH = 6f;
     [SerializeField] float minH = 0.2f;
+    [SerializeField] float decreaseAmount;
+    [SerializeField] int decreaseInterval = 5;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,7 +21,12 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(obstaclePrefab, GetRandomPosition(), Quaternion.identity);
+            Instantiate(prefab, GetRandomPosition(), Quaternion.identity);
+            
+            spawnCount++;
+            DecreaseSpawnTime();
+            
+
             yield return new WaitForSeconds(spawnTime);
         }
     }
@@ -30,5 +40,13 @@ public class Spawner : MonoBehaviour
     public void StopSpawning()
     {
         StopAllCoroutines();
+    }
+
+    private void DecreaseSpawnTime()
+    {
+        if (spawnCount % decreaseInterval == 0 && spawnTime > minSpawnTime)
+        {
+            spawnTime -= decreaseAmount;
+        }
     }
 }
