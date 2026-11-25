@@ -5,7 +5,7 @@ public class Spawner : MonoBehaviour
 {
     private int spawnCount;
 
-    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject[] prefabs;
     [SerializeField] float spawnTime = 2f;
     [SerializeField] float minSpawnTime;
     [SerializeField] float maxH = 6f;
@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(prefab, GetRandomPosition(), Quaternion.identity);
+            Instantiate(prefabs[Random.Range(0, prefabs.Length)], GetRandomPosition(), Quaternion.identity);
             
             spawnCount++;
             DecreaseSpawnTime();

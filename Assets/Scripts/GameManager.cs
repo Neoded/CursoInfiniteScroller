@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
+
+        if (score < 0)
+        {
+            score = 0;
+        }
+
         scoreText.text = "Score: " + score.ToString();
     }
 
@@ -53,8 +59,11 @@ public class GameManager : MonoBehaviour
 
     private static void StopSpawner() 
     {
-        Spawner spawner = FindAnyObjectByType<Spawner>();
-        spawner.StopSpawning();
+        Spawner[] spawners = FindObjectsByType<Spawner>();
+        foreach (var spawner in spawners)
+        {
+            spawner.StopSpawning();
+        }
     }
 
     private static void StopScrolls()
